@@ -4,7 +4,7 @@ import { MaterialItem } from './navigatoritems.js';
 import { NavigatorPanel, NavigatorPopupButton } from './navigatorpanel.js';
 import { GetMaterialName, GetMeshName } from './utils.js';
 
-import {t} from './i18next.js';
+import { t } from './i18next.js';
 
 class NavigatorMeshesPopupButton extends NavigatorPopupButton
 {

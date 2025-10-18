@@ -238,8 +238,35 @@ export class Website
         this.OnHashChange ();
 
         window.addEventListener ('resize', () => {
+            // 防止媒体查询覆盖用户的上次选择，必须先根据保存的状态重新调整面板显示
+            this.UpdatePanelsVisibility();
 			this.layouter.Resize ();
 		});
+
+        window.addEventListener('message', (e) => {
+            // 因为此项目打包产物在另个项目的public中，随它一起部署，所以origin一定一致
+            if (e.origin !== window.location.origin) {
+                console.warn('origin不一致', e.origin);
+            }
+
+            // 确认是父窗口发送的消息
+            if (e.source !== window.parent) {
+                console.warn('不是父窗口发的消息');
+                return;
+            }
+
+            const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+            console.log('3DViewer 收到了消息', data);
+
+            const { type, payload } = data;
+            if (type === 'loadModel') {
+                if (!payload.modelFileList.length) return;
+                const urls = payload.modelFileList.map(u => u.url);
+                this.hashHandler.SetModelFilesToHash(urls);
+            } else if (type === 'clearModel') {
+                //
+            }
+        });
     }
 
     HasLoadedModel ()
@@ -943,8 +970,9 @@ export class Website
 
     UpdatePanelsVisibility ()
     {
-        let showNavigator = CookieGetBoolVal ('ov_show_navigator', true);
-        let showSidebar = CookieGetBoolVal ('ov_show_sidebar', true);
+        // 默认不显示左侧栏和右侧栏
+        let showNavigator = CookieGetBoolVal ('ov_show_navigator', false);
+        let showSidebar = CookieGetBoolVal ('ov_show_sidebar', false);
         this.navigator.ShowPanels (showNavigator);
         this.sidebar.ShowPanels (showSidebar);
     }
@@ -968,14 +996,14 @@ export class Website
             return;
         }
 
-        let link = t('<a target="_blank" href="info/cookies.html">{{text}}</a>', { text: t('Cookies Policy') });
-        let text = t('This website uses cookies to offer you better user experience. See the details at the {{- link }} page.', { link: link} );
-        let popupDiv = AddDiv (document.body, 'ov_bottom_floating_panel');
-        AddDiv (popupDiv, 'ov_floating_panel_text', text);
-        let acceptButton = AddDiv (popupDiv, 'ov_button ov_floating_panel_button', t('Accept'));
-        acceptButton.addEventListener ('click', () => {
+        // let link = t('<a target="_blank" href="info/cookies.html">{{text}}</a>', { text: t('Cookies Policy') });
+        // let text = t('This website uses cookies to offer you better user experience. See the details at the {{- link }} page.', { link: link} );
+        // let popupDiv = AddDiv (document.body, 'ov_bottom_floating_panel');
+        // AddDiv (popupDiv, 'ov_floating_panel_text', text);
+        // let acceptButton = AddDiv (popupDiv, 'ov_button ov_floating_panel_button', t('Accept'));
+        // acceptButton.addEventListener ('click', () => {
             CookieSetBoolVal ('ov_cookie_consent', true);
-            popupDiv.remove ();
-        });
+        //     popupDiv.remove ();
+        // });
     }
 }

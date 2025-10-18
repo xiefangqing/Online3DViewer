@@ -25,6 +25,7 @@ div.title
 div.title div.title_left
 {
 	float: left;
+	height: 40px;
 }
 
 div.title svg.logo_image

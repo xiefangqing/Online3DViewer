@@ -123,5 +123,8 @@
   "Emissive Map": "自发光贴图",
   "Specular Map": "高光贴图",
   "Metallic Map": "金属贴图",
-  "Please wait...": "请稍等..."
+  "Please wait...": "请稍等...",
+  "Select Model": "选择模型",
+  "Multiple importable models found. Select the model you would like to import from the list below.": "找到多个可导入的模型，请从下面的列表中选择您想要导入的模型。",
+  "Loading Model": "正在加载模型"
 }

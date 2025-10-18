@@ -27,7 +27,7 @@ export class ThreeModelLoaderUI
                 this.CloseDialogIfOpen ();
                 callbacks.onStart ();
                 progressDialog = new ProgressDialog ();
-                progressDialog.Init ('Loading Model');
+                progressDialog.Init (t('Loading Model'));
                 progressDialog.Open ();
             },
             onFileListProgress : (current, total) => {
@@ -104,9 +104,9 @@ export class ThreeModelLoaderUI
     ShowFileSelectorDialog (fileNames, onSelect)
     {
         let dialog = new ButtonDialog ();
-        let contentDiv = dialog.Init ('Select Model', [
+        let contentDiv = dialog.Init (t('Select Model'), [
             {
-                name : 'Cancel',
+                name : t('Cancel'),
                 subClass : 'outline',
                 onClick () {
                     dialog.Close ();
@@ -117,7 +117,7 @@ export class ThreeModelLoaderUI
             onSelect (null);
         });
 
-        let text = 'Multiple importable models found. Select the model you would like to import from the list below.';
+        let text = t('Multiple importable models found. Select the model you would like to import from the list below.');
         AddDiv (contentDiv, 'ov_dialog_message', text);
 
         let fileListSection = AddDiv (contentDiv, 'ov_dialog_section');
