@@ -267,6 +267,22 @@ export class Website
                 //
             }
         });
+
+        const params = new URLSearchParams(window.location.search);
+        const rawData = params.get('data');
+        console.log('rawData:', rawData);
+        if (rawData) {
+            try {
+                const data = JSON.parse(decodeURIComponent(rawData));
+                console.log('小程序传递的data', data);
+                const urls = data.map(u => u.url);
+                this.hashHandler.SetModelFilesToHash(urls);
+            } catch(e) {
+                console.log('解析数据失败', e);
+            }
+        } else {
+            console.log('没有收到数据');
+        }
     }
 
     HasLoadedModel ()
